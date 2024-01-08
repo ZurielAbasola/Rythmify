@@ -8,7 +8,12 @@ app.use(express.urlencoded({ extended: false }));
 
 app.post(
   "/",
-  (req, res, next) => {},
+  (req, res, next) => {
+    req.on("data", (chunk) => {
+      req.body = JSON.parse(chunk);
+    });
+    next();
+  },
   (req, res) => {
     console.log(req.body);
     res.json({ message: "Hello, World!" });
